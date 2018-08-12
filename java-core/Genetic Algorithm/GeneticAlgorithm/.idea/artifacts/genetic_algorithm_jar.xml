@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="genetic-algorithm:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/genetic_algorithm_wip</output-path>
-    <root id="archive" name="genetic-algorithm.jar">
-      <element id="module-output" name="genetic-algorithm" />
-    </root>
-  </artifact>
-</component>
