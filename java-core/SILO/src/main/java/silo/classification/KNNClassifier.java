@@ -45,13 +45,8 @@ public class KNNClassifier<F, L> implements Classifier<F, L> {
      * {@link DataRow}s. By default, it tries to use the Euclidean distance between the rows. However, this assumes
      * that the type {@code F} is numeric, or all values in the rows are strings which can be parsed as a numeric.
      */
-    private BiFunction<DataRow<F>, DataRow<F>, Double> distanceMeasure = (a, b) -> {
-        double distance = 0;
-        for (String column : a.columns()) {
-            distance += Math.pow(Double.parseDouble("" + a.getValue(column)) - Double.parseDouble("" + b.getValue(column)), 2);
-        }
-        return Math.sqrt(distance);
-    };
+    private BiFunction<DataRow<F>, DataRow<F>, Double> distanceMeasure = (a, b) ->
+            silo.math.Math.minkowskiDistance(a, b, 2);
 
 
     /*
