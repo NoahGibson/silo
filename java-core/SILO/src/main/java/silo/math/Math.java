@@ -27,7 +27,7 @@ public class Math {
      *
      * @return the Minkowski Distance between the two points
      *
-     * @throws IllegalArgumentException if either array is null, if the two points are of unequal dimension
+     * @throws IllegalArgumentException if either array is null, or if the two points are of unequal dimension
      */
     public static double minkowskiDistance(double[] a, double[] b, int p) throws IllegalArgumentException {
         if (a == null || b == null) {
@@ -55,7 +55,7 @@ public class Math {
      *
      * @return the Minkowski Distance between the two points
      *
-     * @throws IllegalArgumentException if either array is null, if the two points are of unequal dimension
+     * @throws IllegalArgumentException if either array is null, or if the two points are of unequal dimension
      */
     public static double minkowskiDistance(int[] a, int[] b, int p) throws IllegalArgumentException {
         if (a == null || b == null) {
