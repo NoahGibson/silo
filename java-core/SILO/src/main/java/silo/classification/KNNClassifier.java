@@ -46,7 +46,7 @@ public class KNNClassifier<F, L> implements Classifier<F, L> {
      * that the type {@code F} is numeric, or all values in the rows are strings which can be parsed as a numeric.
      */
     private BiFunction<DataRow<F>, DataRow<F>, Double> distanceMeasure = (a, b) ->
-            silo.math.Math.minkowskiDistance(a, b, 2);
+            silo.math.Distance.minkowskiDistance(a, b, 2);
 
 
     /*

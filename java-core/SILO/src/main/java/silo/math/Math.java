@@ -2,6 +2,10 @@ package silo.math;
 
 import silo.data.DataRow;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Class implementing basic mathematical functions.
  *
@@ -16,89 +20,59 @@ public class Math {
      */
 
     /**
-     * Returns the Minkowski Distance between points {@code a} and {@code b}, for the given order p.
+     * Returns the mean of the given list of values (assuming the types of values contained in the given list are
+     * either numeric, or strings that can be parsed as numeric).
      *
-     * @param a
-     *      the first point
-     * @param b
-     *      the second point
-     * @param p
-     *      the order to use (1 -> Manhattan Distance, 2 -> Euclidean Distance, etc.)
+     * @param values
+     *      the list of values to find the mean of
      *
-     * @return the Minkowski Distance between the two points
+     * @return the mean of the list of values
      *
-     * @throws IllegalArgumentException if either array is null, or if the two points are of unequal dimension
+     * @throws IllegalArgumentException if the given list is null, or if there is an error parsing the values in the
+     *      list as numeric
      */
-    public static double minkowskiDistance(double[] a, double[] b, int p) throws IllegalArgumentException {
-        if (a == null || b == null) {
-            throw new IllegalArgumentException("input arrays must not be null");
+    public static <T> double mean(List<T> values) throws IllegalArgumentException {
+        if (values == null) {
+            throw new IllegalArgumentException("input list must not be null");
         }
-        if (a.length != b.length) {
-            throw new IllegalArgumentException("arrays must be of same size");
+        double sum = 0;
+        for (T value : values) {
+            sum += Double.parseDouble("" + value);
         }
-        double distance = 0;
-        for (int i = 0; i < a.length; i++) {
-            distance += java.lang.Math.pow(java.lang.Math.abs(a[i] - b[i]), p);
-        }
-        return java.lang.Math.pow(distance, (1.0 / p));
+        return sum / values.size();
     }
 
     /**
-     * Returns the Minkowski Distance between points {@code a} and {@code b}, for the given order p.
+     * Returns the mode of the given list of values.
      *
-     * @param a
-     *      the first point
-     * @param b
-     *      the second point
-     * @param p
-     *      the order to use (1 -> Manhattan Distance, 2 -> Euclidean Distance, etc.)
+     * @param values
+     *      the list of values to find the mode of
      *
-     * @return the Minkowski Distance between the two points
+     * @return the mode of the list of values
      *
-     * @throws IllegalArgumentException if either array is null, or if the two points are of unequal dimension
+     * @throws IllegalArgumentException if the given list is null
      */
-    public static double minkowskiDistance(int[] a, int[] b, int p) throws IllegalArgumentException {
-        if (a == null || b == null) {
-            throw new IllegalArgumentException("input arrays must not be null");
+    public static <T> T mode(List<T> values) throws IllegalArgumentException {
+        if (values == null) {
+            throw new IllegalArgumentException("input list must not be null");
         }
-        if (a.length != b.length) {
-            throw new IllegalArgumentException("arrays must be of same size");
+        Map<T, Integer> occurrences = new HashMap<>();
+        for (T value : values) {
+            if (occurrences.containsKey(value)) {
+                occurrences.put(value, occurrences.get(value) + 1);
+            } else {
+                occurrences.put(value, 1);
+            }
         }
-        double distance = 0;
-        for (int i = 0; i < a.length; i++) {
-            distance += java.lang.Math.pow(java.lang.Math.abs(a[i] - b[i]), p);
+        T winner = null;
+        int maxCount = 0;
+        for (Map.Entry<T, Integer> candidate : occurrences.entrySet()) {
+            if (candidate.getValue() > maxCount) {
+                winner = candidate.getKey();
+                maxCount = candidate.getValue();
+            }
         }
-        return java.lang.Math.pow(distance, (1.0 / p));
-    }
-
-    /**
-     * Returns the Minkowski Distance between DataRows {@code a} and {@code b} (assuming the types of values contained
-     * in the rows are either numeric, or strings that can be parsed as numeric) for the given order p.
-     *
-     * @param a
-     *      the first DataRow
-     * @param b
-     *      the second DataRow
-     * @param p
-     *      the order to use (1 -> Manhattan Distance, 2 -> Euclidean Distance, etc.)
-     *
-     * @return the Minkowski Distance between the two DataRows
-     *
-     * @throws IllegalArgumentException if either DataRow is null, if the two data rows are of unequal size, or if
-     *      there is an error parsing the values in either row as numeric
-     */
-    public static <T> double minkowskiDistance(DataRow<T> a, DataRow<T> b, int p) throws IllegalArgumentException {
-        if (a == null || b == null) {
-            throw new IllegalArgumentException("input data rows must not be null");
-        }
-        if (a.size() != b.size()) {
-            throw new IllegalArgumentException("data rows must be of same size");
-        }
-        double distance = 0;
-        for (String column : a.columns()) {
-            distance += java.lang.Math.pow(java.lang.Math.abs(Double.parseDouble("" + a.getValue(column)) - Double.parseDouble("" + b.getValue(column))), p);
-        }
-        return java.lang.Math.pow(distance, (1.0 / p));
+        return winner;
     }
 
 }
