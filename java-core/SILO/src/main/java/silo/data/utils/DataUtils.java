@@ -2,6 +2,7 @@ package silo.data.utils;
 
 import silo.data.ArrayListDataFrame;
 import silo.data.DataFrame;
+import silo.data.HashMapDataRow;
 
 import java.util.*;
 
@@ -37,9 +38,9 @@ public class DataUtils {
         Random rand = new Random();
         for (int i = 0; i < data.size(); i++ ) {
             if (rand.nextDouble() < testRatio) {
-                testSet.addRow(data.getRow(i), testSet.size());
+                testSet.addRow(new HashMapDataRow<>(data.getRow(i)), testSet.size());
             } else {
-                trainSet.addRow(data.getRow(i), trainSet.size());
+                trainSet.addRow(new HashMapDataRow<>(data.getRow(i)), trainSet.size());
             }
         }
         Collections.shuffle(testSet.rows());

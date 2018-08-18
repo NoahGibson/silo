@@ -33,7 +33,7 @@ public interface DataFrame<T> extends Iterable<DataRow<T>> {
     DataRow<T> getRow(int index);
 
     /**
-     * Returns a list of names of the columns contained in {@code this}.
+     * Returns a set of names of the columns contained in {@code this}.
      *
      * @return the names of the columns in the data frame
      */
