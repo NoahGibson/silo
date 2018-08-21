@@ -1,5 +1,6 @@
 package silo.validation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +42,34 @@ public class Metrics {
             }
         }
         return (double) numEqual / a.size();
+    }
+
+    /**
+     * Returns the Mean Squared Error between the predicted values and the expected values.
+     * <p>
+     * The input lists should either contain numeric values, or strings which can be parsed as numeric.
+     *
+     * @param prediction
+     *      the predicted values
+     * @param expected
+     *      the expected values
+     *
+     * @return the mean squared error of the lists
+     *
+     * @throws IllegalArgumentException if either of the input lists are null, or if the sizes of the two lists do not
+     *      match
+     */
+    public static <T> double meanSquaredError(List<T> prediction, List<T> expected) throws IllegalArgumentException {
+        if (prediction == null || expected == null) {
+            throw new IllegalArgumentException("input lists must not be null");
+        } else if (prediction.size() != expected.size()) {
+            throw new IllegalArgumentException("input lists must be of same size");
+        }
+        List<Double> squaredErrors = new ArrayList<>();
+        for (int i = 0; i < prediction.size(); i++) {
+            squaredErrors.add(java.lang.Math.pow(Double.parseDouble("" + expected.get(i)) - Double.parseDouble("" + prediction.get(i)), 2));
+        }
+        return silo.math.Math.mean(squaredErrors);
     }
 
 }
